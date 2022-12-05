@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 const corsOptions = {
   optionsSuccessStatus: 200, // For legacy browser support
   credentials: true, // This is important.
-  origin: "http://localhost:3000",
+  origin: "*",
 };
 
 dotenv.config();
