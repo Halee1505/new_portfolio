@@ -34,6 +34,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const imageRoutes = require("./routes/image.routes.js");
 app.use("/album", imageRoutes);
+app.use("/", (req, res) => {
+  res.send("Hello World!");
+});
 
 const port = 1505;
 
