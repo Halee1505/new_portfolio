@@ -34,6 +34,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const imageRoutes = require("./routes/image.routes.js");
 app.use("/album", imageRoutes);
+const uploadRoutes = require("./routes/upload.routes.js");
+app.use("/upload", uploadRoutes);
 app.use("/", (req, res) => {
   res.send("Hello World!");
 });
