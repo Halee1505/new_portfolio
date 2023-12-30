@@ -13,7 +13,7 @@ async function uploadToCloudinary(imagePath) {
   try {
     const result = await cloudinary.uploader
       .upload(imagePath, {
-        folder: "graduated",
+        folder: "NTgrasses",
       })
       .then((data) => {
         return data;

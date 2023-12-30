@@ -27,7 +27,7 @@ class Upload {
       })
     );
     const img = new Image({
-      gallery: "Mừng Halee tốt nghiệpppp",
+      gallery: "NT đồng cỏ",
       path: filePaths,
     });
     img

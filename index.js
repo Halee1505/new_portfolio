@@ -36,6 +36,8 @@ const imageRoutes = require("./routes/image.routes.js");
 app.use("/album", imageRoutes);
 const uploadRoutes = require("./routes/upload.routes.js");
 app.use("/upload", uploadRoutes);
+const alexaRoutes = require("./routes/alexa.routes.js");
+app.use("/alexa", alexaRoutes);
 app.use("/", (req, res) => {
   res.send("Hello World 2023!");
 });
