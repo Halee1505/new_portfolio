@@ -38,11 +38,13 @@ const uploadRoutes = require("./routes/upload.routes.js");
 app.use("/upload", uploadRoutes);
 const alexaRoutes = require("./routes/alexa.routes.js");
 app.use("/alexa", alexaRoutes);
+const macsRoutes = require("./routes/macs.routes.js");
+app.use("/macs", macsRoutes);
 app.use("/", (req, res) => {
   res.send("Hello World 2023!");
 });
 
-const port = 1506;
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
