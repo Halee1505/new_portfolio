@@ -52,7 +52,7 @@ app.use("/api/v2/users/me/owned-spaces", async (req, res) => {
       },
     })
     .catch((error) => {
-      console.log(error);
+      res.send(error + "error");
     });
   res.send(response.data);
 });
@@ -67,7 +67,7 @@ app.use("/api/v2/spaces/:spaceName/maps", async (req, res) => {
       },
     })
     .catch((error) => {
-      console.log(error);
+      res.send(error + "error");
     });
   res.send(response.data);
 });
