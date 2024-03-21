@@ -4,6 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const axios = require("axios");
 const corsOptions = {
   optionsSuccessStatus: 200, // For legacy browser support
   credentials: true, // This is important.
@@ -39,7 +40,21 @@ app.use("/upload", uploadRoutes);
 const alexaRoutes = require("./routes/alexa.routes.js");
 app.use("/alexa", alexaRoutes);
 const macsRoutes = require("./routes/macs.routes.js");
+
 app.use("/macs", macsRoutes);
+
+app.use("/gather", (req, res) => {
+  const response = axios
+    .get("https://api.gather.town/api/v2/users/me/owned-spaces", {
+      headers: {
+        apiKey: `vwd3g0OXXdEDrj9O`,
+        "Access-Control-Allow-Origin": "*",
+      },
+    })
+    .then((response) => {
+      res.send(response.data);
+    });
+});
 app.use("/", (req, res) => {
   res.send("Hello World 2023!");
 });
