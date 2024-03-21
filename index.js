@@ -43,18 +43,35 @@ const macsRoutes = require("./routes/macs.routes.js");
 
 app.use("/macs", macsRoutes);
 
-app.use("/gather", (req, res) => {
-  const response = axios
+app.use("/api/v2/users/me/owned-spaces", async (req, res) => {
+  const response = await axios
     .get("https://api.gather.town/api/v2/users/me/owned-spaces", {
       headers: {
         apiKey: `vwd3g0OXXdEDrj9O`,
         "Access-Control-Allow-Origin": "*",
       },
     })
-    .then((response) => {
-      res.send(response.data);
+    .catch((error) => {
+      console.log(error);
     });
+  res.send(response.data);
 });
+
+app.use("/api/v2/spaces/:spaceName/maps", async (req, res) => {
+  const { spaceName } = req.params;
+  const response = await axios
+    .get(`https://api.gather.town/api/v2/spaces/${spaceName}/maps`, {
+      headers: {
+        apiKey: `vwd3g0OXXdEDrj9O`,
+        "Access-Control-Allow-Origin": "*",
+      },
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  res.send(response.data);
+});
+
 app.use("/", (req, res) => {
   res.send("Hello World 2023!");
 });
