@@ -12,7 +12,9 @@ const corsOptions = {
 };
 
 dotenv.config();
-
+app.use(cors(corsOptions));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 const connectDB = async () => {
   await mongoose
     .connect(process.env.DB, {
@@ -29,9 +31,6 @@ const connectDB = async () => {
     );
 };
 connectDB();
-app.use(cors(corsOptions));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 const imageRoutes = require("./routes/image.routes.js");
 app.use("/album", imageRoutes);
@@ -39,8 +38,11 @@ const uploadRoutes = require("./routes/upload.routes.js");
 app.use("/upload", uploadRoutes);
 const alexaRoutes = require("./routes/alexa.routes.js");
 app.use("/alexa", alexaRoutes);
-const macsRoutes = require("./routes/macs.routes.js");
 
+const flashcardRoutes = require("./routes/flashcard.routes.js");
+app.use("/flashcard", flashcardRoutes);
+
+const macsRoutes = require("./routes/macs.routes.js");
 app.use("/macs", macsRoutes);
 
 app.use("/api/v2/users/me/owned-spaces", async (req, res) => {
@@ -59,17 +61,18 @@ app.use("/api/v2/users/me/owned-spaces", async (req, res) => {
 
 app.use("/api/v2/spaces/:spaceName/maps", async (req, res) => {
   const { spaceName } = req.params;
-  const response = await axios
-    .get(`https://api.gather.town/api/v2/spaces/${spaceName}/maps`, {
+  try {
+    const response = await axios.get(`https://api.gather.town/api/v2/spaces/${spaceName}/maps`, {
       headers: {
         apiKey: `vwd3g0OXXdEDrj9O`,
         "Access-Control-Allow-Origin": "*",
       },
-    })
-    .catch((error) => {
-      res.send(error + "error");
     });
-  res.send(response.data);
+    res.send(response.data);
+  } catch (error) {
+    console.log(error);
+    res.send(JSON.stringify(error) + "error");
+  }
 });
 
 app.use("/", (req, res) => {
