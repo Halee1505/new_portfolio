@@ -6,6 +6,7 @@ Router.get("/category", FlashCardController.getFlashCardCategory);
 Router.get("/category/:category", FlashCardController.getFlashCardByCategory);
 Router.get("/:id", FlashCardController.getFlashCardById);
 Router.post("/", FlashCardController.createFlashCard);
+Router.post("/category", FlashCardController.createCategory);
 Router.put("/:id", FlashCardController.updateFlashCard);
 
 module.exports = Router;
