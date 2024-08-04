@@ -56,6 +56,14 @@ class FlashCardController {
       }
     });
   }
+  getCategoryById(req, res, next) {
+    flashcardCategory.findById(req.params.id, function (err, key) {
+      if (!err) res.send(key);
+      else {
+        res.json("error");
+      }
+    });
+  }
 
   getFlashCardById(req, res, next) {
     FlashCard.findById(req.params.id, function (err, key) {
