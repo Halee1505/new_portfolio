@@ -5,7 +5,7 @@ Router.get("/", FlashCardController.getFlashCard);
 Router.get("/category", FlashCardController.getFlashCardCategory);
 Router.get("/category/:id", FlashCardController.getCategoryById);
 Router.get(
-  "/flashcard/by-category/:category",
+  "/by-category/:category",
   FlashCardController.getFlashCardByCategory
 );
 Router.get("/:id", FlashCardController.getFlashCardById);
