@@ -12,6 +12,7 @@ class FlashCardController {
             word_region: item.word_region,
             meaning_region: item.meaning_region,
             category: item.category,
+            image: item.image,
           };
         });
         res.send(data);
@@ -48,6 +49,7 @@ class FlashCardController {
             word_region: item.word_region,
             meaning_region: item.meaning_region,
             category: item.category,
+            image: item.image,
           };
         });
         res.send(data);
@@ -81,6 +83,7 @@ class FlashCardController {
       word_region: req.body.word_region,
       meaning_region: req.body.meaning_region,
       category: req.body.category,
+      image: req.body.image,
     });
     flashcard
       .save()

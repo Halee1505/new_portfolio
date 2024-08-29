@@ -17,6 +17,9 @@ const FlashCard = new Schema({
     category: {
       type: String,
     },
+    image: {
+      type: String,
+    },
 
 });
 
