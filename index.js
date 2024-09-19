@@ -45,6 +45,9 @@ app.use("/flashcard", flashcardRoutes);
 const macsRoutes = require("./routes/macs.routes.js");
 app.use("/macs", macsRoutes);
 
+const myMoneyRoutes = require("./services/my_money.routes.js");
+app.use("/my_money/v1", myMoneyRoutes);
+
 app.use("/api/v2/users/me/owned-spaces", async (req, res) => {
   const response = await axios
     .get("https://api.gather.town/api/v2/users/me/owned-spaces", {
@@ -74,6 +77,7 @@ app.use("/api/v2/spaces/:spaceName/maps", async (req, res) => {
     res.send(JSON.stringify(error) + "error");
   }
 });
+
 
 app.use("/", (req, res) => {
   res.send("Hello World 2023!");
