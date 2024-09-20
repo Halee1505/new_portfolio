@@ -1,5 +1,5 @@
 const Router = require("express").Router();
-const FlashCardController = require("../controller/flashcard.controller.js");
+const FlashCardController = require("./flashcard.controller.js");
 
 Router.get("/", FlashCardController.getFlashCard);
 Router.get("/category", FlashCardController.getFlashCardCategory);

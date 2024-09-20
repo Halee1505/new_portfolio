@@ -1,6 +1,6 @@
-const Image = require("../model/image.model.js");
-const uploadToCloudinary = require("../service/cloudinary.service.js");
-const getFileNamesInFolder = require("../service/getFileName.service.js");
+const Image = require("./portfolio.model.js");
+const uploadToCloudinary = require("../../service/cloudinary.service.js");
+const getFileNamesInFolder = require("../../service/getFileName.service.js");
 class Upload {
   upload(req, res, next) {
     const img = new Image({

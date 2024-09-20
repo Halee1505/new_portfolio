@@ -1,9 +1,9 @@
-const Image = require("../model/image.model.js");
+const PortfolioImageModel = require("./portfolio.model.js");
 
-class Img {
+class PortfolioController {
   index(req, res, next) {
     //find and reverse the order of the images
-    Image.find({}, function (err, key) {
+    PortfolioImageModel.find({}, function (err, key) {
       if (!err) {
         const data = key.map((item) => {
           return {
@@ -20,7 +20,7 @@ class Img {
   }
 
   findAlbum(req, res, next) {
-    Image.findById(req.params.id, function (err, key) {
+    PortfolioImageModel.findById(req.params.id, function (err, key) {
       if (!err) res.send(key);
       else {
         res.json("error");
@@ -28,4 +28,4 @@ class Img {
     });
   }
 }
-module.exports = new Img();
+module.exports = new PortfolioController();

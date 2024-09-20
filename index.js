@@ -15,37 +15,37 @@ dotenv.config();
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-const connectDB = async () => {
-  await mongoose
-    .connect(process.env.DB, {
-      useUnifiedTopology: true,
-      useNewUrlParser: true,
-    })
-    .then(
-      () => {
-        console.log("Database is connected");
-      },
-      (err) => {
-        console.log("Can not connect to the database" + err);
-      }
-    );
-};
-connectDB();
+// const connectDB = async () => {
+//   await mongoose
+//     .connect(process.env.DB, {
+//       useUnifiedTopology: true,
+//       useNewUrlParser: true,
+//     })
+//     .then(
+//       () => {
+//         console.log("Database is connected");
+//       },
+//       (err) => {
+//         console.log("Can not connect to the database" + err);
+//       }
+//     );
+// };
+// connectDB();
 
-const imageRoutes = require("./routes/image.routes.js");
-app.use("/album", imageRoutes);
-const uploadRoutes = require("./routes/upload.routes.js");
+const portfolioRoute = require("./services/portfolio/portfolio.routes.js");
+app.use("/album", portfolioRoute);
+const uploadRoutes = require("./services/portfolio/upload.routes.js");
 app.use("/upload", uploadRoutes);
-const alexaRoutes = require("./routes/alexa.routes.js");
-app.use("/alexa", alexaRoutes);
+// const alexaRoutes = require("./routes/alexa.routes.js");
+// app.use("/alexa", alexaRoutes);
 
-const flashcardRoutes = require("./routes/flashcard.routes.js");
+const flashcardRoutes = require("./services/flashcard/flashcard.routes.js");
 app.use("/flashcard", flashcardRoutes);
 
-const macsRoutes = require("./routes/macs.routes.js");
-app.use("/macs", macsRoutes);
+// const macsRoutes = require("./routes/macs.routes.js");
+// app.use("/macs", macsRoutes);
 
-const myMoneyRoutes = require("./services/my_money.routes.js");
+const myMoneyRoutes = require("./services/my_money/my_money.routes");
 app.use("/my_money/v1", myMoneyRoutes);
 
 app.use("/api/v2/users/me/owned-spaces", async (req, res) => {

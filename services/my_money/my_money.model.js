@@ -1,3 +1,4 @@
+const myMoneyDb = require("./my_money.db");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
@@ -40,10 +41,10 @@ const Transaction = new Schema({
   updated_at: String,
 });
 
-const TransactionModel = mongoose.model("MyMoney.Transaction", Transaction);
-const CategoryModel = mongoose.model("MyMoney.Category", Category);
-const LocationModel = mongoose.model("MyMoney.Location", Location);
-const UserModel = mongoose.model("MyMoney.User", User);
+const TransactionModel = myMoneyDb.model("Transaction", Transaction);
+const CategoryModel = myMoneyDb.model("Category", Category);
+const LocationModel = myMoneyDb.model("Location", Location);
+const UserModel = myMoneyDb.model("User", User);
 
 module.exports = {
   TransactionModel,

@@ -1,8 +1,7 @@
-const FlashCard = require("../model/flashcard.model");
-const flashcardCategory = require("../model/flashcardCategory.model");
+const { FlashCardModel, FlashCardCategoryModel } = require("./flashcard.model");
 class FlashCardController {
   getFlashCard(req, res, next) {
-    FlashCard.find({}, function (err, key) {
+    FlashCardModel.find({}, function (err, key) {
       if (!err) {
         const data = key.map((item) => {
           return {
@@ -23,7 +22,7 @@ class FlashCardController {
   }
 
   getFlashCardCategory(req, res, next) {
-    flashcardCategory.find({}, function (err, key) {
+    FlashCardCategoryModel.find({}, function (err, key) {
       if (!err) {
         const data = key.map((item) => {
           return {
@@ -39,7 +38,7 @@ class FlashCardController {
   }
 
   getFlashCardByCategory(req, res, next) {
-    FlashCard.find({ category: req.params.category }, function (err, key) {
+    FlashCardModel.find({ category: req.params.category }, function (err, key) {
       if (!err) {
         const data = key.map((item) => {
           return {
@@ -59,7 +58,7 @@ class FlashCardController {
     });
   }
   getCategoryById(req, res, next) {
-    flashcardCategory.findById(req.params.id, function (err, key) {
+    FlashCardCategoryModel.findById(req.params.id, function (err, key) {
       if (!err) res.send(key);
       else {
         res.json("error");
@@ -68,7 +67,7 @@ class FlashCardController {
   }
 
   getFlashCardById(req, res, next) {
-    FlashCard.findById(req.params.id, function (err, key) {
+    FlashCardModel.findById(req.params.id, function (err, key) {
       if (!err) res.send(key);
       else {
         res.json("error");
@@ -77,7 +76,7 @@ class FlashCardController {
   }
 
   createFlashCard(req, res, next) {
-    const flashcard = new FlashCard({
+    const flashcard = new FlashCardModel({
       word: req.body.word,
       meaning: req.body.meaning,
       word_region: req.body.word_region,
@@ -98,7 +97,7 @@ class FlashCardController {
       });
   }
   createCategory(req, res, next) {
-    const category = new flashcardCategory({
+    const category = new FlashCardCategoryModel({
       name: req.body.name,
     });
     category
@@ -115,7 +114,7 @@ class FlashCardController {
   }
 
   updateFlashCard(req, res, next) {
-    FlashCard.findByIdAndUpdate(
+    FlashCardModel.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true },
