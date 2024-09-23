@@ -14,6 +14,8 @@ const User = new Schema({
 const Category = new Schema({
   name: String,
   icon: String,
+  created_at: String,
+  updated_at: String,
 });
 const Location = new Schema({
   city: String,
