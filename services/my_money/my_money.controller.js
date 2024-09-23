@@ -62,7 +62,10 @@ class MyMoneyController {
       if (!user) {
         return res.status(404).send({ message: "User not found" });
       }
-      const transactions = await TransactionModel.find({ user: user });
+      //find transactions by user and sort by date
+      const transactions = await TransactionModel.find({ user: user }).sort({
+        _id: -1
+      })
       return res.status(200).json(transactions);
     } catch (err) {
       return res.status(500).send({
