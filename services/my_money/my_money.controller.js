@@ -52,9 +52,20 @@ class MyMoneyController {
       });
     }
   }
+  async getAllTransactions(req, res, next) {
+    try {
+      const transactions = await TransactionModel.find();
+      return res.status(200).json(transactions);
+    } catch (err) {
+      return res.status(500).send({
+        message: err.message || "Some error occurred while creating the image.",
+      });
+    }
+  }
   async getTransactions(req, res, next) {
     try {
-      const { userId } = req.body;
+      const { userId,categoryId, startDate, endDate } = req.body;
+      console.log(userId,categoryId, startDate, endDate)
       if (!userId) {
         return res.status(404).send({ message: "User not found" });
       }
@@ -62,16 +73,55 @@ class MyMoneyController {
       if (!user) {
         return res.status(404).send({ message: "User not found" });
       }
-      //find transactions by user and sort by date
-      const transactions = await TransactionModel.find({ user: user }).sort({
-        _id: -1
-      })
+      const query = {
+        user: user,
+      }
+      let category = null;
+      if (categoryId) {
+        category = await CategoryModel.findById(categoryId);
+        if (!category) {
+          return res.status(404).send({ message: "Category not found" }); 
+        }
+        else{
+          query.category = category
+        }
+      }
+      if (startDate || endDate) {
+        query.created_at = {};
+        if (startDate) {
+          query.created_at.$gte = startDate;
+        }
+        if (endDate) {
+          query.created_at.$lte = endDate;
+        }
+      }
+      const transactions = await TransactionModel.find(query).sort({ created_at: -1 });
+     
       return res.status(200).json(transactions);
     } catch (err) {
       return res.status(500).send({
         message: err.message || "Some error occurred while creating the image.",
       });
     }
+  }
+  async updateTransaction(req, res, next) {
+    const { _id, created_at } = req.body;
+    const transaction = await TransactionModel.findById(_id);
+    if (!transaction) {
+      return res.status(404).send({ message: "Transaction not found" });
+    }
+    transaction.created_at = created_at;
+    transaction
+      .save()
+      .then((data) => {
+        return res.status(200).json(data);
+      })
+      .catch((err) => {
+        return res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating the image.",
+        });
+      });
   }
   async newTransaction(req, res, next) {
     const { location, amount, image, note, category, user } = req.body;
@@ -84,8 +134,8 @@ class MyMoneyController {
       categoryExist = new CategoryModel({
         name: category.name,
         icon: category.icon,
-        created_at: new Date(),
-        updated_at: new Date(),
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
       });
       categoryExist.save().catch((err) => {
         return res.status(500).send({
@@ -102,8 +152,8 @@ class MyMoneyController {
       note: note,
       category: categoryExist,
       user: userExist,
-      created_at: new Date(),
-      updated_at: new Date(),
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     });
     transaction
       .save()
