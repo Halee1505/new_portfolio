@@ -7,7 +7,6 @@ const {
 class MyMoneyController {
   async login(req, res, next) {
     const { email, password } = req.body;
-    console.log(email, password);
     const user = await UserModel.findOne({ email: email });
     if (user) {
       if (user.password === password) {
@@ -27,6 +26,7 @@ class MyMoneyController {
       email: email,
       password: password,
       avatar: avatar,
+      money_goal: 0,
       created_at: new Date(),
       updated_at: new Date(),
     });
@@ -65,7 +65,6 @@ class MyMoneyController {
   async getTransactions(req, res, next) {
     try {
       const { userId,categoryId, startDate, endDate } = req.body;
-      console.log(userId,categoryId, startDate, endDate)
       if (!userId) {
         return res.status(404).send({ message: "User not found" });
       }
@@ -74,17 +73,11 @@ class MyMoneyController {
         return res.status(404).send({ message: "User not found" });
       }
       const query = {
-        user: user,
+        user: userId,
       }
-      let category = null;
+  
       if (categoryId) {
-        category = await CategoryModel.findById(categoryId);
-        if (!category) {
-          return res.status(404).send({ message: "Category not found" }); 
-        }
-        else{
-          query.category = category
-        }
+          query.category = categoryId
       }
       if (startDate || endDate) {
         query.created_at = {};
@@ -95,8 +88,18 @@ class MyMoneyController {
           query.created_at.$lte = endDate;
         }
       }
-      const transactions = await TransactionModel.find(query).sort({ created_at: -1 });
-     
+      const transactions = await TransactionModel.find(query).sort({ created_at: -1 }).select({ name: 1, created_at: 1,
+        amount: 1,
+        image: 1,
+        note: 1,
+        location: {
+          city: 1,
+          district: 1,
+          street: 1,
+          streetNumber: 1,
+        },
+        created_at: 1,
+       });
       return res.status(200).json(transactions);
     } catch (err) {
       return res.status(500).send({
@@ -105,23 +108,7 @@ class MyMoneyController {
     }
   }
   async updateTransaction(req, res, next) {
-    const { _id, created_at } = req.body;
-    const transaction = await TransactionModel.findById(_id);
-    if (!transaction) {
-      return res.status(404).send({ message: "Transaction not found" });
-    }
-    transaction.created_at = created_at;
-    transaction
-      .save()
-      .then((data) => {
-        return res.status(200).json(data);
-      })
-      .catch((err) => {
-        return res.status(500).send({
-          message:
-            err.message || "Some error occurred while creating the image.",
-        });
-      });
+   res.send("Need to implement");
   }
   async newTransaction(req, res, next) {
     const { location, amount, image, note, category, user } = req.body;
@@ -151,7 +138,7 @@ class MyMoneyController {
       image: image,
       note: note,
       category: categoryExist,
-      user: userExist,
+      user: userExist._id,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     });

@@ -10,6 +10,7 @@ const User = new Schema({
   avatar: String,
   created_at: String,
   updated_at: String,
+  money_goal: Number,
 });
 const Category = new Schema({
   name: String,
@@ -36,9 +37,9 @@ const Transaction = new Schema({
   note: String,
   amount: Number,
   image: String,
-  category: Category,
+  category:{ type: Schema.Types.ObjectId, ref: 'Category' },
   location: Location,
-  user: User,
+  user: { type: Schema.Types.ObjectId, ref: 'User' },
   created_at: String,
   updated_at: String,
 });
