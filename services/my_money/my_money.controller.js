@@ -64,7 +64,7 @@ class MyMoneyController {
   }
   async getTransactions(req, res, next) {
     try {
-      const { userId,categoryId, startDate, endDate } = req.body;
+      const { userId, categoryId, startDate, endDate } = req.body;
       if (!userId) {
         return res.status(404).send({ message: "User not found" });
       }
@@ -74,10 +74,10 @@ class MyMoneyController {
       }
       const query = {
         user: userId,
-      }
-  
+      };
+
       if (categoryId) {
-          query.category = categoryId
+        query.category = categoryId;
       }
       if (startDate || endDate) {
         query.created_at = {};
@@ -88,18 +88,24 @@ class MyMoneyController {
           query.created_at.$lte = endDate;
         }
       }
-      const transactions = await TransactionModel.find(query).sort({ created_at: -1 }).select({ name: 1, created_at: 1,
-        amount: 1,
-        image: 1,
-        note: 1,
-        location: {
-          city: 1,
-          district: 1,
-          street: 1,
-          streetNumber: 1,
-        },
-        created_at: 1,
-       });
+      const transactions = await TransactionModel.find(query)
+        .sort({ created_at: -1 })
+        .populate("category",{name:1})
+        .select({
+          name: 1,
+          created_at: 1,
+          amount: 1,
+          image: 1,
+          note: 1,
+          location: {
+            city: 1,
+            district: 1,
+            street: 1,
+            streetNumber: 1,
+          },
+          category: 1,
+          created_at: 1,
+        });
       return res.status(200).json(transactions);
     } catch (err) {
       return res.status(500).send({
@@ -108,7 +114,7 @@ class MyMoneyController {
     }
   }
   async updateTransaction(req, res, next) {
-   res.send("Need to implement");
+    res.send("Need to implement");
   }
   async newTransaction(req, res, next) {
     const { location, amount, image, note, category, user } = req.body;
