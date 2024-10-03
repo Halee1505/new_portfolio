@@ -90,7 +90,7 @@ class MyMoneyController {
       }
       const transactions = await TransactionModel.find(query)
         .sort({ created_at: -1 })
-        .populate("category",{name:1})
+        .populate("category",{name:1, icon:1})
         .select({
           name: 1,
           created_at: 1,
