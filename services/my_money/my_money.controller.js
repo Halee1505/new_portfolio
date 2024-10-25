@@ -102,6 +102,8 @@ class MyMoneyController {
             district: 1,
             street: 1,
             streetNumber: 1,
+            latitude:1,
+            longitude:1
           },
           category: 1,
           created_at: 1,
